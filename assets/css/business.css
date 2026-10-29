@@ -1,0 +1,239 @@
+/* =========================
+   PROFIL USAHA QRSAJI
+========================= */
+
+.business-content {
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 55px 30px 80px;
+}
+
+.business-content > h1 {
+    margin-top: 12px;
+    color: var(--green);
+    font: 800 clamp(29px, 4vw, 40px) 'Manrope', sans-serif;
+    letter-spacing: -1.5px;
+}
+
+.business-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.business-nav-actions form {
+    margin: 0;
+}
+
+.business-back {
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.business-form-card {
+    margin-top: 32px;
+    padding: 30px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+}
+
+.business-form-card h2,
+.business-list-section > h2 {
+    color: var(--green);
+    font: 700 20px 'Manrope', sans-serif;
+}
+
+.business-form-card > p,
+.business-list-description {
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.business-form-card form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.business-form-card label {
+    margin: 15px 0 7px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.business-form-card input:not([type="hidden"]),
+.business-form-card textarea {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid #dedfd8;
+    border-radius: 6px;
+    background: #fff;
+    color: var(--text);
+    font: 13px 'DM Sans', sans-serif;
+    outline: none;
+}
+
+.business-form-card input:not([type="hidden"]) {
+    min-height: 45px;
+}
+
+.business-form-card textarea {
+    min-height: 75px;
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.business-form-card input:focus,
+.business-form-card textarea:focus {
+    border-color: var(--green-light);
+    box-shadow: 0 0 0 3px #31574715;
+}
+
+.business-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.business-form-actions .btn {
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.form-success {
+    margin-top: 20px;
+    padding: 13px 15px;
+    border: 1px solid #c9e4cf;
+    border-radius: 6px;
+    background: #f0faf2;
+    color: #27653a;
+    font-size: 12px;
+}
+
+.business-list-section {
+    margin-top: 42px;
+}
+
+.business-list {
+    display: grid;
+    gap: 13px;
+    margin-top: 20px;
+}
+
+.business-item {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    padding: 20px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+}
+
+.business-item-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    background: var(--cream);
+    border-radius: 8px;
+    color: var(--green);
+    font: 800 16px 'Manrope', sans-serif;
+}
+
+.business-item-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.business-item-details h3 {
+    color: var(--green);
+    font: 700 15px 'Manrope', sans-serif;
+}
+
+.business-item-details p {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.business-slug {
+    display: inline-block;
+    margin-top: 8px;
+    color: #6d806e;
+    font-size: 10px;
+    overflow-wrap: anywhere;
+}
+
+.business-item > .btn {
+    flex-shrink: 0;
+    min-height: 38px;
+    padding: 8px 13px;
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.business-empty {
+    margin-top: 20px;
+    padding: 35px 20px;
+    text-align: center;
+    background: white;
+    border: 1px dashed #d9ddd3;
+    border-radius: 9px;
+}
+
+.business-empty > span {
+    font-size: 30px;
+}
+
+.business-empty h3 {
+    margin-top: 10px;
+    font: 700 16px 'Manrope', sans-serif;
+}
+
+.business-empty p {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+@media (max-width: 600px) {
+    .business-content {
+        padding: 38px 5% 55px;
+    }
+
+    .business-form-card {
+        padding: 22px 17px;
+    }
+
+    .business-nav-actions {
+        gap: 12px;
+    }
+
+    .business-back {
+        font-size: 11px;
+    }
+
+    .business-item {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 15px;
+    }
+
+    .business-item-details {
+        width: calc(100% - 65px);
+    }
+
+    .business-item > .btn {
+        margin-left: 60px;
+    }
+}
