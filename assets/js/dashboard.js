@@ -44,6 +44,7 @@
 
     // Tutup sidebar kalau sedang terbuka (di layar kecil)
     $('#sidebar')?.classList.remove('open');
+    $('#sidebarOverlay')?.classList.remove('show');
 
     // Perbarui judul di topbar sesuai section yang aktif
     const names = {overview:'Dashboard Pemilik',business:'Profil Usaha',products:'Item Menu',categories:'Kategori',qr:'Kode QR',settings:'Pengaturan'};
@@ -64,7 +65,20 @@
   $$('[data-go]').forEach(btn => btn.addEventListener('click', () => switchSection(btn.dataset.go)));
 
   // Tombol hamburger untuk membuka/menutup sidebar di layar kecil
-  $('#mobileMenu')?.addEventListener('click', () => $('#sidebar').classList.toggle('open'));
+
+  $('#mobileMenu')?.addEventListener('click', () => {
+    const isOpen = $('#sidebar').classList.toggle('open');
+    $('#sidebarOverlay')?.classList.toggle('show', isOpen);
+  });
+
+  $('#sidebarOverlay')?.addEventListener('click', () => {
+    $('#sidebar').classList.remove('open');
+    $('#sidebarOverlay').classList.remove('show');
+  });
+
+
+
+
 
   // Kalau pengguna ganti usaha di dropdown overview, reload halaman dengan business_id baru
   $('#businessSwitcher')?.addEventListener('change', e => {

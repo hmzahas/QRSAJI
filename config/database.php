@@ -1,17 +1,16 @@
 <?php
 
-$host     = getenv('DB_HOST')   ?: 'localhost';
-$dbname   = getenv('DB_NAME')   ?: 'qrsaji_db';
-$username = getenv('DB_USER')   ?: 'root';
-$password = getenv('DB_PASS')   ?: '';
-$port     = getenv('DB_PORT')   ?: '3306';
+$host = 'localhost';
+$dbname = 'qrsaji_db';
+$username = 'root';
+$password = '';
 
-$dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
+$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
 
 $options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
+    PDO::ATTR_EMULATE_PREPARES => false,
 ];
 
 try {

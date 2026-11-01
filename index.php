@@ -14,6 +14,18 @@ $pageTitle = "QRSAJI - Menu Digital untuk UMKM";
 
 <body>
 
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <aside class="mobile-sidebar" id="mobileSidebar">
+        <nav class="mobile-sidebar-nav">
+            <a href="#fitur">Fitur</a>
+            <a href="#cara-kerja">Cara Kerja</a>
+            <a href="#tentang">Tentang</a>
+            <a href="login.php">Masuk</a>
+            <a href="register.php" class="mobile-sidebar-cta">Mulai Gratis</a>
+        </nav>
+    </aside>
+
     <header class="navbar">
         <a href="index.php" class="logo">
             <img src="assets/image/logo.png" alt="QRSAJI - Scan, Lihat, Pilih, Pesan">
@@ -27,7 +39,8 @@ $pageTitle = "QRSAJI - Menu Digital untuk UMKM";
 
         <div class="nav-actions">
             <a href="login.php" class="login-link">Masuk</a>
-            <a href="register.php" class="btn btn-small">Mulai Gratis </a>
+            <a href="register.php" class="btn btn-small">Mulai Gratis</a>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">&#9776;</button>
         </div>
     </header>
 
@@ -215,16 +228,10 @@ $pageTitle = "QRSAJI - Menu Digital untuk UMKM";
             </div>
 
             <div class="footer-col">
-                <span class="footer-heading">PRODUK</span>
+                <span class="footer-heading">NAVIGASI</span>
                 <a href="#fitur">Fitur</a>
                 <a href="#cara-kerja">Cara Kerja</a>
-                <a href="register.php">Mulai Gratis</a>
-            </div>
-
-            <div class="footer-col">
-                <span class="footer-heading">BANTUAN</span>
                 <a href="#tentang">Tentang</a>
-                <a href="mailto:hello@qrsaji.id">Email</a>
             </div>
 
             <div class="footer-col">
@@ -247,6 +254,14 @@ $pageTitle = "QRSAJI - Menu Digital untuk UMKM";
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive: true });
+
+  // Hamburger sidebar
+  const overlay = document.getElementById('navOverlay');
+  const sidebar = document.getElementById('mobileSidebar');
+  function openSidebar() { sidebar.classList.add('open'); overlay.classList.add('show'); }
+  function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+  document.getElementById('mobileToggle')?.addEventListener('click', (e) => { e.stopPropagation(); openSidebar(); });
+  document.addEventListener('click', () => { if (sidebar.classList.contains('open')) closeSidebar(); });
 
   // 2. Scroll reveal dengan stagger per group
   const revealObserver = new IntersectionObserver((entries) => {

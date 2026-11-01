@@ -38,10 +38,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f5f5f0;color:#1a1a1
 /* CATEGORY TABS */
 .mn-tabs{background:#fff;border-bottom:1px solid #e8e8e0;padding:0 clamp(16px,4vw,48px);overflow-x:auto;scrollbar-width:none}
 .mn-tabs::-webkit-scrollbar{display:none}
-.mn-tabs-inner{display:flex;gap:0;max-width:1200px;margin:0 auto}
-.mn-tab{padding:14px 18px;font-size:13px;font-weight:600;color:#666;border:none;background:none;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.mn-tabs-inner{display:flex;gap:0;max-width:1200px;margin:0 auto;position:relative}
+.mn-tab{padding:14px 18px;font-size:13px;font-weight:600;color:#666;border:none;background:none;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .15s;position:relative;z-index:1}
 .mn-tab:hover{color:#1a3028}
-.mn-tab.active{color:#1a3028;border-bottom-color:#1a3028}
+.mn-tab.active{color:#1a3028}
+.mn-tab-indicator{position:absolute;bottom:0;height:2px;background:#1a3028;transition:left .22s ease,width .22s ease;pointer-events:none}
 
 /* BANNER */
 .mn-banner{max-width:1200px;margin:24px auto;padding:0 clamp(16px,4vw,48px)}
@@ -59,10 +60,13 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f5f5f0;color:#1a1a1
 .mn-section-title{font-size:20px;font-weight:800;color:#1a1a1a}
 
 /* PRODUCT GRID — horizontal scroll */
-.mn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.mn-grid-wrap{position:relative}
+.mn-grid{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;flex-wrap:nowrap}
+.mn-grid::-webkit-scrollbar{display:none}
+.mn-grid .mn-card{display:flex}
 
 /* PRODUCT CARD */
-.mn-card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;display:flex;flex-direction:column;transition:box-shadow .18s}
+.mn-card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;display:flex;flex-direction:column;transition:box-shadow .18s;flex-shrink:0;width:180px;scroll-snap-align:start}
 .mn-card:hover{box-shadow:0 6px 24px #0001}
 .mn-card-img{width:100%;aspect-ratio:1;object-fit:cover;background:#f0f0ea;display:block}
 .mn-card-img-placeholder{width:100%;aspect-ratio:1;background:#f0f0ea;display:grid;place-items:center;font-size:36px}
@@ -82,11 +86,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f5f5f0;color:#1a1a1
 .mn-footer strong{color:#1a3028}
 
 @media(max-width:600px){
-  .mn-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .mn-card{width:150px}
   .mn-address{display:none}
 }
 @media(max-width:380px){
-  .mn-grid{grid-template-columns:1fr}
+  .mn-card{width:130px}
 }
 </style>
 </head>
@@ -118,6 +122,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f5f5f0;color:#1a1a1
 <?php if ($categories): ?>
 <div class="mn-tabs" id="mnTabs">
   <div class="mn-tabs-inner">
+    <div class="mn-tab-indicator" id="mnIndicator"></div>
     <?php foreach ($categories as $i => $cat): ?>
       <button class="mn-tab <?= $i===0?'active':'' ?>" data-cat="<?= h($cat) ?>"><?= h($cat) ?></button>
     <?php endforeach; ?>
@@ -144,29 +149,33 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f5f5f0;color:#1a1a1
       <section class="mn-section" id="cat-<?= h(preg_replace('/\s+/','-',strtolower($cat))) ?>">
         <div class="mn-section-head">
           <h2 class="mn-section-title"><?= h($cat) ?></h2>
+          <?php if (count($items) > 6): ?>
+          <?php endif; ?>
         </div>
-        <div class="mn-grid">
-          <?php foreach ($items as $item): ?>
-            <article class="mn-card">
-              <?php if (!empty($item['image'])): ?>
-                <img class="mn-card-img" src="<?= h($item['image']) ?>" alt="<?= h($item['product_name']) ?>">
-              <?php else: ?>
-                <div class="mn-card-img-placeholder">🍽️</div>
-              <?php endif; ?>
-              <div class="mn-card-body">
-                <div class="mn-card-name"><?= h($item['product_name']) ?></div>
-                <?php if ($item['description']): ?>
-                  <div class="mn-card-desc"><?= h($item['description']) ?></div>
+        <div class="mn-grid-wrap">
+          <div class="mn-grid collapsed">
+            <?php foreach ($items as $item): ?>
+              <article class="mn-card">
+                <?php if (!empty($item['image'])): ?>
+                  <img class="mn-card-img" src="<?= h($item['image']) ?>" alt="<?= h($item['product_name']) ?>">
+                <?php else: ?>
+                  <div class="mn-card-img-placeholder">🍽️</div>
                 <?php endif; ?>
-                <div class="mn-card-footer">
-                  <span class="mn-card-price">Rp<?= number_format((float)$item['price'],0,',','.') ?></span>
-                  <?php if (!(int)$item['is_available']): ?>
-                    <span class="mn-card-sold">Habis</span>
+                <div class="mn-card-body">
+                  <div class="mn-card-name"><?= h($item['product_name']) ?></div>
+                  <?php if ($item['description']): ?>
+                    <div class="mn-card-desc"><?= h($item['description']) ?></div>
                   <?php endif; ?>
+                  <div class="mn-card-footer">
+                    <span class="mn-card-price">Rp<?= number_format((float)$item['price'],0,',','.') ?></span>
+                    <?php if (!(int)$item['is_available']): ?>
+                      <span class="mn-card-sold">Habis</span>
+                    <?php endif; ?>
+                  </div>
                 </div>
-              </div>
-            </article>
-          <?php endforeach; ?>
+              </article>
+            <?php endforeach; ?>
+          </div>
         </div>
       </section>
     <?php endforeach; ?>
@@ -176,11 +185,25 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f5f5f0;color:#1a1a1
 <footer class="mn-footer">Powered by <strong>QRSAJI.</strong></footer>
 
 <script>
-// Tab aktif saat klik
+
+
+const indicator = document.getElementById('mnIndicator');
+
+// Pindahkan indikator ke tab yang diklik
+function moveIndicator(tab) {
+  indicator.style.left = tab.offsetLeft + 'px';
+  indicator.style.width = tab.offsetWidth + 'px';
+}
+
+// Set posisi awal ke tab aktif pertama
+const firstActive = document.querySelector('.mn-tab.active');
+if (firstActive) moveIndicator(firstActive);
+
 document.querySelectorAll('.mn-tab').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.mn-tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    moveIndicator(btn);
     const id = 'cat-' + btn.dataset.cat.replace(/\s+/g,'-').toLowerCase();
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
@@ -194,7 +217,11 @@ const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       const cat = e.target.querySelector('.mn-section-title')?.textContent.trim();
-      tabs.forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
+      tabs.forEach(t => {
+        const isActive = t.dataset.cat === cat;
+        t.classList.toggle('active', isActive);
+        if (isActive) moveIndicator(t);
+      });
     }
   });
 }, {threshold:0.3});
